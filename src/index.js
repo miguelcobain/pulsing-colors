@@ -22,37 +22,63 @@ let animationTypeSelect = document.getElementById('animation-type');
 let playButton = document.getElementById('play');
 let stage = document.getElementById('stage');
 
+let offColor = '#000000';
+let onColor = '#ffffff';
+let duration = 2000;
+let easing = 'ease-in-out';
+
+function animate() {
+  return stage.animate([
+    { backgroundColor: offColor },
+    { backgroundColor: onColor },
+    { backgroundColor: offColor }
+  ], {
+    duration,
+    easing,
+    iterations: Infinity
+  });
+}
+
+let animation = animate();
+
+// set defaults
+onColorInput.value = onColor;
+offColorInput.value = offColor;
+durationInput.value = duration / 1000;
+animationTypeSelect.value = easing;
+
 onColorInput.addEventListener('input', function(e) {
-  let color = e.target.value;
-  document.documentElement.style.setProperty('--on-color', color);
+  onColor = e.target.value;
+  animate();
 });
 
 offColorInput.addEventListener('input', function(e) {
-  let color = e.target.value;
-  document.documentElement.style.setProperty('--off-color', color);
+  offColor = e.target.value;
+  animate();
 });
 
 durationInput.addEventListener('input', function(e) {
-  let duration = e.target.value;
-  stage.style.animationDuration = `${duration}s`;
+  duration = parseFloat(e.target.value) * 1000;
+  animate();
 });
 
 animationTypeSelect.addEventListener('input', function(e) {
-  let animationType = e.target.value;
-  stage.style.animationTimingFunction = animationType;
+  easing = e.target.value;
+  animate();
 });
 
 playButton.addEventListener('click', function() {
-  let { animationPlayState } = window.getComputedStyle(stage);
-  if (animationPlayState === 'paused') {
-    stage.style.animationPlayState = 'running';
-    playButton.textContent = 'Pause';
-  } else {
-    stage.style.animationPlayState = 'paused';
+  if (animation.playState === 'running') {
+    animation.pause();
     playButton.textContent = 'Play';
+  } else {
+    animation.play();
+    playButton.textContent = 'Pause';
   }
 });
 
 stage.addEventListener('click', function(e) {
   screenfull.request(e.target);
 });
+
+
