@@ -1,0 +1,39 @@
+:root {
+  --off-color: #000;
+  --on-color: #fff;
+}
+
+body {
+  margin: 0;
+  padding: 10px;
+  font-family: 'Lato', sans-serif;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#play {
+  font-size: 20px;
+}
+
+#stage {
+  flex: 1;
+  background-color: var(--off-color, #000);
+  animation-name: color;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-play-state: paused;
+}
+
+@keyframes color {
+  0% {
+    background-color: var(--off-color, #000);
+  }
+  50% {
+    background-color: var(--on-color, #fff);
+  }
+  100% {
+    background-color: var(--off-color, #000);
+  }
+}
