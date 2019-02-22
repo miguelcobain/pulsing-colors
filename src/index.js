@@ -12,8 +12,8 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-import './styles.scss';
 import screenfull from 'screenfull';
+import 'web-animations-js';
 
 let onColorInput = document.getElementById('on-color');
 let offColorInput = document.getElementById('off-color');
@@ -78,7 +78,15 @@ playButton.addEventListener('click', function() {
 });
 
 stage.addEventListener('click', function(e) {
-  screenfull.request(e.target);
+  if (screenfull.enabled) {
+    screenfull.request(e.target);
+  } else {
+    if (stage.classList.contains('faux-fullscreen')) {
+      stage.classList.remove('faux-fullscreen');
+    } else {
+      stage.classList.add('faux-fullscreen');
+    }
+  }
 });
 
 
